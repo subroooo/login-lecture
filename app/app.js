@@ -10,7 +10,7 @@ const home = require("./src/routes/home"); // "현재폴더에서 routes라는 �
 //앱 세팅
 app.set("views", "./src/views"); //views를 ./views라는 경로로 지정
 app.set("view engine", "ejs");
-
+app.use(express.static(`${__dirname}/src/public`));
 app.use("/", home);
 /*
 "/"라는 경로로 들어오면 앞줄에서 생성한 home으로 보내줌
