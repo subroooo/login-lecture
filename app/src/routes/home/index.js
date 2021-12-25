@@ -6,7 +6,7 @@ const router = express.Router();
 const ctrl = require("./home.ctrl");
 // ./home.ctrl에있는 모듈 가져다 쓸꺼임.. 이라고 알려주는역할
 
-router.get("/", ctrl.home);
+router.get("/", ctrl.output.home);
 //가져다 쓸때도 ctrl에 있는 home라고 자세하게 지정해 줘야 사용할 수 있음.
 
 /*
@@ -15,8 +15,8 @@ home 원래 부분(req, res) => {
   });
 */
 
-router.get("/login", ctrl.login);
-// router.post("/login", ctrl.login);
+router.get("/login", ctrl.output.login);
+router.post("/login", ctrl.process.login);
 /*
 login 원래 부분 (req, res) => {
   res.render("home/login");
