@@ -16,4 +16,16 @@ function login() {
     id: id.value,
     psword: psword.value,
   };
+
+  fetch("/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(req),
+  });
 }
+/*
+  해당경로의 API를 백쪽에서 만들어 주어야 하는데 해당 API는 
+  index.js에서 router.get("/login",ctrl.login)이런 것들이 API의 일부임.
+  */

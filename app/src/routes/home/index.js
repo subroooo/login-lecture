@@ -16,6 +16,7 @@ home 원래 부분(req, res) => {
 */
 
 router.get("/login", ctrl.login);
+// router.post("/login", ctrl.login);
 /*
 login 원래 부분 (req, res) => {
   res.render("home/login");
