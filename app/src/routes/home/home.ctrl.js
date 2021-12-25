@@ -12,15 +12,15 @@ const output = {
 
 const users = {
   id: ["woorimIT", "나개발", "김팀장"],
-  pw: ["1234", "1234", "123456"],
+  psword: ["1234", "1234", "123456"],
 };
 // id와 pw를 서버로 넘겼을때 데이터가 맞는지 인증하는 과정을 하려고 만든 users
 
 const process = {
   login: (req, res) => {
     //console.log(req.body); req.body로 해주어야 fetch의 body부분의 req볼수 있음
-    const id = req.body.id,
-      psword = req.body.psword;
+    const id = req.body.id;
+    const psword = req.body.psword;
     //프론트에서 넘긴 id,pw가 담긴 객체 req에서 . .를 사용하여 알맹이만 쏙 빼내고 검증과정을 하려고 if구문 사용
     if (users.id.includes(id)) {
       //위에서 만들어준 users라는 배열에 id가 위에서 프론트에서 넘긴 id를 가지고 있다면 (아이디가 있는지 검증하는 부분)
