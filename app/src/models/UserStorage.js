@@ -46,5 +46,17 @@ class UserStorage {
 
     return userInfo;
   }
+
+  static save(userInfo) {
+    /* User.js에서 register함수에서 던져서 온 client라는 정보를 userInfo로 받아주고(이름만 바꿈)
+    해당 데이터를 위에서 저장소인 #users에 저장할 수있도록 아래의 코드를 작성
+    */
+
+    const users = this.#users;
+    users.id.push(userInfo.id);
+    users.name.push(userInfo.name);
+    users.psword.push(userInfo.psword);
+    return { success: true };
+  }
 }
 module.exports = UserStorage;

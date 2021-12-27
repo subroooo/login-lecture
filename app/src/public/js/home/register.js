@@ -15,11 +15,18 @@ const registerBtn = document.querySelector("#button");
 registerBtn.addEventListener("click", register);
 
 function register() {
+  if (!id.value) {
+    //회원가입시 id를 입력하지 않았을때 경고문구
+    return alert("아이디를 입력해주십시오.");
+  }
+  if (psword.value !== confirmPsword.value) {
+    //회원가입시 비밀번호와 비밀번호 확인 하는 값이 같지 않으면 alert를 띄워줌
+    return alert("비밀번호가 일치하지 않습니다");
+  }
   const req = {
     id: id.value,
     name: name.value,
     psword: psword.value,
-    confirmPsword: confirmPsword.value,
   };
   console.log(req);
 

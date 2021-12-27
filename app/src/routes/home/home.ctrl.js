@@ -46,6 +46,12 @@ const process = {
     // return res.json(response);
     // // 두개의 조건중 하나라도 틀린다면 return 으로 실패했다고 알려주어야 함;
   },
+  register: (req, res) => {
+    const user = new User(req.body);
+    const response = user.register();
+    console.log(response);
+    return res.json(response);
+  },
 };
 
 module.exports = {
