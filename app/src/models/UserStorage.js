@@ -25,5 +25,26 @@ class UserStorage {
     }, {});
     return newUsers;
   }
+
+  static getUserInfo(id) {
+    /*User 코드에서 login 함수에서 getUserInfo 호출할때 특정 id값을 던지면 id에 해당하는 데이터들을 객체로 전달하는
+    메서드를 만드는 과정*/
+    const users = this.#users;
+    //위의 #users를 users로 받아서
+    const idx = users.id.indexOf(id);
+    //User.js에서 getUserInfo에 입력한 id의 인덱스를 구해서 idx에 넣어준 것임
+    const usersKeys = Object.keys(users); // => [id,psword,name]
+    //users의 key값들만 리스트로 만든다
+    const userInfo = usersKeys.reduce((newUser, info) => {
+      newUser[info] = users[info][idx];
+      //위의 idx에 해당하는 값들을 newUser[info]에 넣어준것임
+      return newUser;
+    }, {});
+    /*reduce의 초깃값을 {}로 넣어주고, newUser라는 객체의 키값인 
+    info(위에서 나온[id,psword,name])가 순차적으로 들어가게 됨
+    */
+
+    return userInfo;
+  }
 }
 module.exports = UserStorage;
