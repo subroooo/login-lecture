@@ -6,9 +6,9 @@ class User {
     this.body = body;
     //constructor로 받은 body를 this.body로 User의 body로 만들어줌
   }
-  login() {
+  async login() {
     const client = this.body;
-    const { id, psword } = UserStorage.getUserInfo(client.id);
+    const { id, psword } = await UserStorage.getUserInfo(client.id);
     if (id) {
       if (id === client.id && psword === client.psword) {
         return { success: true };

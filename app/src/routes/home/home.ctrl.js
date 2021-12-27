@@ -18,9 +18,9 @@ const output = {
 // id와 pw를 서버로 넘겼을때 데이터가 맞는지 인증하는 과정을 하려고 만든 users
 
 const process = {
-  login: (req, res) => {
+  login: async (req, res) => {
     const user = new User(req.body); //이렇게 req.bodysms User.js의 class인 User의 body로 들어감 따라서 new User를 user라는 인스턴스로 만들수 있게 됨
-    const response = user.login();
+    const response = await user.login();
     console.log(response);
     return res.json(response);
     // return res.json(response);
