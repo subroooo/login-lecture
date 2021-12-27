@@ -1,5 +1,6 @@
 "use strict";
-
+const UserStorage = require("../../models/UserStorage");
+//절대 경로기 때문에 상위로 두번 올라간 다음 UserStorage를 가지고 있는 models파일로 내려오고 한번더 내려가야함
 const output = {
   home: (req, res) => {
     res.render("home/index");
@@ -10,10 +11,6 @@ const output = {
   },
 };
 
-const users = {
-  id: ["woorimIT", "나개발", "김팀장"],
-  psword: ["1234", "1234", "123456"],
-};
 // id와 pw를 서버로 넘겼을때 데이터가 맞는지 인증하는 과정을 하려고 만든 users
 
 const process = {
@@ -22,22 +19,23 @@ const process = {
     const id = req.body.id;
     const psword = req.body.psword;
     //프론트에서 넘긴 id,pw가 담긴 객체 req에서 . .를 사용하여 알맹이만 쏙 빼내고 검증과정을 하려고 if구문 사용
+    //const userStorage = new UserStorage(); 클래스여서 인스턴스 생성방법을 이런식으로 해야함.(그렇지만 UserStorage클래스에서 static으로 선언한 놈은 바로 부를수 있음)
+    const users = UserStorage.getUsers("id", "psword");
+    const response = {};
     if (users.id.includes(id)) {
       //위에서 만들어준 users라는 배열에 id가 위에서 프론트에서 넘긴 id를 가지고 있다면 (아이디가 있는지 검증하는 부분)
       const idx = users.id.indexOf(id);
       // 그 아이디의 인덱스를 idx로 잡아주어
       if (users.psword[idx] === psword) {
         // 해당 id가 pw랑 일치하는지 psword 배열의 index로 검증과정을 만들어줌
-        return res.json({
-          success: true,
-        });
+        response.success = true;
+        return res.json(response);
       }
     }
-    return res.json({
-      // 두개의 조건중 하나라도 틀린다면 return 으로 실패했다고 알려주어야 함
-      success: false,
-      msg: "로그인에 실패하셨습니다.",
-    });
+    response.success = false;
+    response.msg = "로그인에 실패하셨습니다";
+    return res.json(response);
+    // 두개의 조건중 하나라도 틀린다면 return 으로 실패했다고 알려주어야 함;
   },
 };
 
