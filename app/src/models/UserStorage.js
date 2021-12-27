@@ -27,11 +27,9 @@ class UserStorage {
   //static 으로 정적으로 선언을 해 준다면 외부에서 new로 인스턴스를 만들어서 할 필요없이 클래스 자체에서 . 찍어서 접근가능
   //그렇지만 외부에서 불러올수 있다는 것은 위험한 행위이기에 이름앞에 #를 붙여서 private한 변수로 은닉화 주어야함
   //class 안에 변수 선언해 줄 때는 const처럼 생성할 때 쓰이는 키워드 필요없음
-  static getUsers(...fields) {
-    //...fields 이런식으로 매개변수를 선언하여 준다면 ctrl에서 파라미터로 넘긴 변수들이 배열의 형태로 저장됨
-    //위에서 은닉화해 주었던 #users를 다른 곳에서 사용할 수 있도록 메서드를 만들어주어야함
-    //대신 메서드 앞에도 static으로 선언해주어야함.
-    // const users = this.#users;
+  static #getUsers(data, isAll, fields) {
+    const users = JSON.parse(data);
+    if (isAll) return users;
     const newUsers = fields.reduce((newUsers, field) => {
       //newUsers에는 초기값인 id가 들어가고 그 다음변수 부터는 field에 차례대로 들어감
       if (users.hasOwnProperty(field)) {
@@ -42,6 +40,22 @@ class UserStorage {
       //return 되는 newUsers가 reduce의 다음 파라미터인 newUsers로 들어가게 됨
     }, {});
     return newUsers;
+  }
+
+  static getUsers(isAll, ...fields) {
+    //...fields 이런식으로 매개변수를 선언하여 준다면 ctrl에서 파라미터로 넘긴 변수들이 배열의 형태로 저장됨
+    //위에서 은닉화해 주었던 #users를 다른 곳에서 사용할 수 있도록 메서드를 만들어주어야함
+    //대신 메서드 앞에도 static으로 선언해주어야함.
+    return (
+      fs
+        .readFile("./src/databases/users.json")
+        .then((data) => {
+          return this.#getUsers(data, isAll, fields);
+        })
+        //fs.readFile이 성공했을때 then실행
+        .catch(console.error)
+    );
+    //fs.readFile이 실패했을때 catch 실행
   }
 
   static getUserInfo(id) {
@@ -57,18 +71,18 @@ class UserStorage {
         //fs.readFile이 성공했을때 then실행
         .catch(console.error)
     );
-    //fs.readFile이 실패했을때 catch 실행
   }
 
-  static save(userInfo) {
-    /* User.js에서 register함수에서 던져서 온 client라는 정보를 userInfo로 받아주고(이름만 바꿈)
-    해당 데이터를 위에서 저장소인 #users에 저장할 수있도록 아래의 코드를 작성
-    */
-
-    const users = this.#users;
+  static async save(userInfo) {
+    const users = await this.getUsers(true);
+    if (users.id.includes(userInfo.id)) {
+      //고객이 입력한 유져 정보의 id가 db의 유저 정보의 id에 포함되어 있으면
+      throw "이미 존재하는 아이디입니다.";
+    }
     users.id.push(userInfo.id);
     users.name.push(userInfo.name);
     users.psword.push(userInfo.psword);
+    fs.writeFile("./src/databases/users.json", JSON.stringify(users));
     return { success: true };
   }
 }
