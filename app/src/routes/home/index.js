@@ -16,6 +16,7 @@ home 원래 부분(req, res) => {
 */
 
 router.get("/login", ctrl.output.login);
+router.get("/register", ctrl.output.register);
 router.post("/login", ctrl.process.login);
 /*
 login 원래 부분 (req, res) => {
