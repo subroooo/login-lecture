@@ -1,7 +1,7 @@
 "use strict";
 
 const app = require("../app");
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 //..으로 현 위치인 www.js에서 상위 폴더로 들어가 그 안에 있는 app이라는 파일을 찾아냄
 
 app.listen(PORT, () => {

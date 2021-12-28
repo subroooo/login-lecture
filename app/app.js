@@ -2,8 +2,12 @@
 
 //모듈
 const express = require("express");
-const app = express();
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+dotenv.config();
+//35강 1:00
+//dotenv를 사용하면 어떤 os에서 개발하더라도 동일하게 환경변수를 등록하고 가져올수 있게됨
+const app = express();
 
 //라우팅
 const home = require("./src/routes/home"); // "현재폴더에서 routes라는 폴더내부의 home이라는 폴더를 읽어와줘"

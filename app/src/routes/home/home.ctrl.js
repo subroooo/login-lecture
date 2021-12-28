@@ -21,7 +21,6 @@ const process = {
   login: async (req, res) => {
     const user = new User(req.body); //이렇게 req.bodysms User.js의 class인 User의 body로 들어감 따라서 new User를 user라는 인스턴스로 만들수 있게 됨
     const response = await user.login();
-    console.log(response);
     return res.json(response);
     // return res.json(response);
     // //console.log(req.body); req.body로 해주어야 fetch의 body부분의 req볼수 있음
@@ -49,7 +48,6 @@ const process = {
   register: async (req, res) => {
     const user = new User(req.body);
     const response = await user.register();
-    console.log(response);
     return res.json(response);
   },
 };
